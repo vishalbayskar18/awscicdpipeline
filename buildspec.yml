@@ -18,7 +18,7 @@ phases:
         - export KUBECONFIG=$HOME/.kube/config
   build:
     commands:
-      - echo "____docker build -t $REPOSITORY_URI:$TAG .___"
+      - echo "____chak de fatte docker build -t $REPOSITORY_URI:$TAG .___"
 
   post_build:
     commands:
