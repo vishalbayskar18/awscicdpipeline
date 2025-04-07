@@ -33,9 +33,6 @@ phases:
       - echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_SESSION_TOKEN
       - kubectl config view
       - aws eks update-kubeconfig --name eksvishal --region ap-south-1
-      - kubectl get configmap aws-auth -n kube-system -o yaml
-      - kubectl config view
-      - kubectl get nodes
       - kubectl apply -f hello-k8s.yml
       - printf '[{"name":"hello-k8s","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
 artifacts:
