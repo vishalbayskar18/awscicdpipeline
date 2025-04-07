@@ -14,16 +14,15 @@ phases:
         - echo $TAG
         - echo $REPOSITORY_URI
         - echo $REPOSITORY_URI:$TAG
-        - sed -i 's@CONTAINER_IMAGE@'"$REPOSITORY_URI:$TAG"'@' hello-k8s.yml
         - $(aws ecr get-login --no-include-email)
         - export KUBECONFIG=$HOME/.kube/config
   build:
     commands:
-      - docker build -t $REPOSITORY_URI:$TAG .
+      - echo "____docker build -t $REPOSITORY_URI:$TAG .___"
 
   post_build:
     commands:
-      - docker push $REPOSITORY_URI:$TAG
+      - echo "____docker push $REPOSITORY_URI:$TAG___"
       - echo $EKS_KUBECTL_ROLE_ARN
       - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
       - echo $CREDENTIALS
