@@ -32,7 +32,9 @@ phases:
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_SESSION_TOKEN
+      - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID && aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY && aws configure set region ap-south-1 && aws configure set output json
       - kubectl config view
+      - kubectl get nodes
       - aws eks update-kubeconfig --name eksvishal --region ap-south-1
       - kubectl config view
       - kubectl get nodes
