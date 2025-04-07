@@ -33,7 +33,7 @@ phases:
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
       - echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_SESSION_TOKEN
       - kubectl config view
-      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
+      - aws eks update-kubeconfig --name eksvishal --region ap-south-1
       - kubectl config view
       - kubectl get nodes
       - kubectl apply -f hello-k8s.yml
