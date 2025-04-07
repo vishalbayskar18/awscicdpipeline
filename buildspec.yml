@@ -24,16 +24,16 @@ phases:
   post_build:
     commands:
       - docker push $REPOSITORY_URI:$TAG
+      - echo $EKS_KUBECTL_ROLE_ARN
       - CREDENTIALS=$(aws sts assume-role --role-arn $EKS_KUBECTL_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
+      - echo $CREDENTIALS
       - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
       - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
       - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
       - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - echo $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_SESSION_TOKEN
       - kubectl config view
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME
-      - kubectl config view
-      - kubectl config set-credentials new-username --exec-command aws --exec-arg eks --exec-arg get-token --exec-arg --cluster-name --exec-arg eksvishal --exec-arg --region --exec-arg ap-south-1
-      - kubectl config set-context arn:aws:eks:ap-south-1:804483646038:cluster/eksvishal --user=new-username
       - kubectl config view
       - kubectl get nodes
       - kubectl apply -f hello-k8s.yml
