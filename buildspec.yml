@@ -36,6 +36,8 @@ phases:
       - aws eks update-kubeconfig --name eksvishal --region ap-south-1
       - kubectl get configmap aws-auth -n kube-system -o yaml
       - kubectl config view
+      - kubectl patch configmap aws-auth -n kube-system --type='json' -p='[{"op": "add", "path": "/data/mapRoles/-", "value": {"rolearn": "arn:aws:iam::804483646038:role/kubectl", "username": "kubectl", "groups": ["system:masters"]}}]'
+      - kubectl get configmap aws-auth -n kube-system -o yaml
       - kubectl get nodes
       - kubectl apply -f hello-k8s.yml
       - printf '[{"name":"hello-k8s","imageUri":"%s"}]' $REPOSITORY_URI:$TAG > build.json
